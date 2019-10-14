@@ -15,9 +15,9 @@ public class CustomerTest {
 
         Customer henry = new Customer("Henry").openAccount(checkingAccount).openAccount(savingsAccount);
 
-        checkingAccount.deposit(100.0);
-        savingsAccount.deposit(4000.0);
-        savingsAccount.withdraw(200.0);
+        checkingAccount.deposit(100.0,DateProvider.getInstance().now());
+        savingsAccount.deposit(4000.0,DateProvider.getInstance().now());
+        savingsAccount.withdraw(1000.0,DateProvider.getInstance().now());
 
         assertEquals("Statement for Henry\n" +
                 "\n" +
@@ -27,10 +27,29 @@ public class CustomerTest {
                 "\n" +
                 "Savings Account\n" +
                 "  deposit $4,000.00\n" +
-                "  withdrawal $200.00\n" +
-                "Total $3,800.00\n" +
+                "  withdrawal $1,000.00\n" +
+                "Total $3,000.00\n" +
                 "\n" +
-                "Total In All Accounts $3,900.00", henry.getStatement());
+                "Total In All Accounts $3,100.00", henry.getStatement());
+        
+        
+        checkingAccount.transfer(savingsAccount, 100);
+        assertEquals("Statement for Henry\n" +
+                "\n" +
+                "Checking Account\n" +
+                "  deposit $100.00\n" +
+                "  withdrawal $100.00\n" +
+                "Total $0.00\n" +
+                "\n" +
+                "Savings Account\n" +
+                "  deposit $4,000.00\n" +
+                "  withdrawal $1,000.00\n" +
+                "  deposit $100.00\n" +
+                "Total $3,100.00\n" +
+                "\n" +
+                "Total In All Accounts $3,100.00", henry.getStatement());
+        
+        
     }
 
     @Test

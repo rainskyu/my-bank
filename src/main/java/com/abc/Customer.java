@@ -31,6 +31,8 @@ public class Customer {
         double total = 0;
         for (Account a : accounts)
             total += a.interestEarned();
+        
+        //System.out.println("total interest earn: "+total);
         return total;
     }
 
